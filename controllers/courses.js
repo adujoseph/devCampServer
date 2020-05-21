@@ -14,14 +14,13 @@ exports.getCourses = asyncHandler(
         if (req.params.bootcampId) {
             query = Course.find({ bootcamp: req.params.bootcampId })
         } else {
-            query = Course.find()
+            query = Course.find().populate({
+                path: 'bootcamp',
+                select: ['name', 'description']
+            })
         }
 
         const courses = await query;
-
-        // if (!courses) {
-        //     return next(new ErrorResponse(`Resource not found with id of `, 400))
-        // }
         res.status(200).json({ success: true, count: courses.length, data: courses })
 
     }
