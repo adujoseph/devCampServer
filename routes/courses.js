@@ -5,7 +5,9 @@ const router = express.Router({ mergeParams: true });
 const {
     getCourses,
     getCourseById,
-    createCourse
+    createCourse,
+    updateCourse,
+    deleteCourse
 } = require('../controllers/courses')
 
 // router.route('/radius/:zipcode/:distance')
@@ -17,5 +19,7 @@ router.route('/')
 
 router.route('/:id')
     .get(getCourseById)
+    .put(updateCourse)
+    .delete(deleteCourse)
 
 module.exports = router;
