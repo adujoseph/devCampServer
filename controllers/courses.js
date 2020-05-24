@@ -12,19 +12,30 @@ const Bootcamp = require('../models/Bootcamp');
 // @access  Public
 exports.getCourses = asyncHandler(
     async (req, res, next) => {
-        let query;
-
         if (req.params.bootcampId) {
-            query = Course.find({ bootcamp: req.params.bootcampId })
-        } else {
-            query = Course.find().populate({
-                path: 'bootcamp',
-                select: ['name', 'description']
-            })
-        }
+            const courses = await Course.find({ bootcamp: req.params.id });
 
-        const courses = await query;
-        res.status(200).json({ success: true, count: courses.length, data: courses })
+            return res.status(200).json({
+                success: true,
+                count: courses.length,
+                data: courses
+            });
+        } else {
+            res.status(200).json(res.advancedResults)
+        }
+        //     let query;
+
+        //     if (req.params.bootcampId) {
+        //         query = Course.find({ bootcamp: req.params.bootcampId })
+        //     } else {
+        //         query = Course.find().populate({
+        //             path: 'bootcamp',
+        //             select: ['name', 'description']
+        //         })
+        //     }
+
+        //     const courses = await query;
+        //     res.status(200).json({ success: true, count: courses.length, data: courses })
 
     }
 )
@@ -39,8 +50,8 @@ exports.getCourseById = asyncHandler(async (req, res, next) => {
         path: 'bootcamp',
         select: 'name description'
     })
- 
-    if(!course){
+
+    if (!course) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 400))
     }
     res.status(200).json({ success: true, data: course })
@@ -56,7 +67,7 @@ exports.createCourse = asyncHandler(async (req, res, next) => {
 
     const bootcamp = await Bootcamp.findById(req.params.bootcampId);
 
-    if(!bootcamp){
+    if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.bootcampId}`, 400))
     }
 
@@ -70,7 +81,7 @@ exports.createCourse = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateCourse = asyncHandler(async (req, res, next) => {
     let course = await Course.findById(req.params.id)
-     if(!course){
+    if (!course) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 400))
     }
     course = await Course.findByIdAndUpdate(req.params.id, req.body, {
@@ -85,10 +96,10 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/courses/:id
 // @access  Private
 exports.deleteCourse = asyncHandler(async (req, res, next) => {
-    
+
     let course = await Course.findById(req.params.id);
 
-    if(!course){
+    if (!course) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.Id}`, 400))
     }
 

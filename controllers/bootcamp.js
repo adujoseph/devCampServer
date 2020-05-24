@@ -9,64 +9,65 @@ const Bootcamp = require('../models/Bootcamp');
 // @access  Public
 exports.getBootcamps = asyncHandler(
     async (req, res, next) => {
-        let query;
+        // let query;
 
-        const reqQuery = {...req.query};
+        // const reqQuery = {...req.query};
 
-        const removeFields = ['select', 'sort', 'page', 'limit'];
-        removeFields.forEach(param => delete reqQuery[param]);
+        // const removeFields = ['select', 'sort', 'page', 'limit'];
+        // removeFields.forEach(param => delete reqQuery[param]);
 
-        let queryStr = JSON.stringify(reqQuery);
-        queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+        // let queryStr = JSON.stringify(reqQuery);
+        // queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
         
-        query = Bootcamp.find(JSON.parse(queryStr)).populate({
-            path: 'courses'
-        });
+        // query = Bootcamp.find(JSON.parse(queryStr)).populate({
+        //     path: 'courses'
+        // });
 
-        if(req.query.select){
-            const fields = req.query.select.split(',').join(' ');
-            query = query.select(fields);
-        }
+        // if(req.query.select){
+        //     const fields = req.query.select.split(',').join(' ');
+        //     query = query.select(fields);
+        // }
 
         
-        if(req.query.sort){
-            const sortBy = req.query.sort.split(',').join(' ');
-            query = query.sort(sortBy);
-        } else {
-           query = query.sort('-createdAt');
-        }
+        // if(req.query.sort){
+        //     const sortBy = req.query.sort.split(',').join(' ');
+        //     query = query.sort(sortBy);
+        // } else {
+        //    query = query.sort('-createdAt');
+        // }
 
 
-        const page = parseInt(req.query.page, 10) || 1
-        const limit = parseInt(req.query.limit, 10) || 100
-        const startIndex = (page - 1)*limit
-        const endIndex = page * limit
-        const total = await Bootcamp.countDocuments(); 
-        query = query.skip(startIndex).limit(limit);
+        // const page = parseInt(req.query.page, 10) || 1
+        // const limit = parseInt(req.query.limit, 10) || 100
+        // const startIndex = (page - 1)*limit
+        // const endIndex = page * limit
+        // const total = await Bootcamp.countDocuments(); 
+        // query = query.skip(startIndex).limit(limit);
 
         
 
        
-        // console.log(queryStr)
-        const bootcamps = await query;
+        // // console.log(queryStr)
+        // const bootcamps = await query;
 
-        const pagination = {};
+        // const pagination = {};
 
-        if(endIndex < total){
-            pagination.next = {
-                page: page +1,
-                limit
-            }
-        }
+        // if(endIndex < total){
+        //     pagination.next = {
+        //         page: page +1,
+        //         limit
+        //     }
+        // }
 
-        if(startIndex > 0){
-            pagination.prev = {
-                page: page -1,
-                limit
-            }
-        }
-        res.status(200).json({ success: true, count: bootcamps.length, pagination,   data: bootcamps })
+        // if(startIndex > 0){
+        //     pagination.prev = {
+        //         page: page -1,
+        //         limit
+        //     }
+        // }
+        //res.status(200).json({ success: true, count: bootcamps.length, pagination,   data: bootcamps })
         // next(err)
+        res.status(200).json(res.advancedResults);
     }
 )
 // @desc    Get single bootcamp
