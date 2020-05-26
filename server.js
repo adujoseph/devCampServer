@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const colors = require('colors');
 const fileupload = require('express-fileupload')
 const connectDB = require('./config/db')
+const cookieParser = require('cookie-parser');
 
 //middleware
 const logger = require('./middleware/logger')
@@ -27,6 +28,8 @@ const app = express();
 // body parser
 app.use(express.json());
 
+//cookie parser
+app.use(cookieParser());
 
 
 
