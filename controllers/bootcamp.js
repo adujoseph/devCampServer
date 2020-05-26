@@ -69,7 +69,9 @@ exports.getBootcamps = asyncHandler(
         // next(err)
         res.status(200).json(res.advancedResults);
     }
-)
+);
+
+
 // @desc    Get single bootcamp
 // @route   GET /api/v1/bootcamps/:id
 // @access  Public
@@ -82,7 +84,7 @@ exports.getBootcampById = asyncHandler(
         }
         res.status(200).json({ success: true, data: bootcamp })
     }
-)
+);
 
 // @desc    Create single bootcamp
 // @route   POST /api/v1/bootcamps/
@@ -97,7 +99,7 @@ exports.createBootcamp = asyncHandler(
 // @desc    Update single bootcamp
 // @route   GET /api/v1/bootcamps/:id
 // @access  Private
-exports.updateBootcamp = (
+exports.updateBootcamp = asyncHandler(
     async (req, res, next) => {
 
         const id = req.params.id
