@@ -20,9 +20,11 @@ const {
 
  //include other resource router
  const courseRouter = require('./courses');
+ const reviewRouter = require('./reviews');
 
  // Re-route into other resource router
  router.use('/:bootcampId/courses', courseRouter);
+ router.use('/:bootcampId/reviews', reviewRouter);
 
  
 router.route('/radius/:zipcode/:distance')
